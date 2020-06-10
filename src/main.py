@@ -7,8 +7,12 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
-if __name__ == "__main__":
-    pass
+from models.database import Database
 
+if __name__ == "__main__":
+    
     #if DB doesn't exist, init it + insert values
-    #connect to DB and display report
+    with Database() as database:
+        
+        #connect to DB and display report
+        database.connect()
