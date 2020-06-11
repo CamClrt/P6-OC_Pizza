@@ -7,7 +7,7 @@
 #! /usr/bin/env python3
 # coding: utf-8
 
-from models.database import Database
+from src.models.database import Database
 
 if __name__ == "__main__":
     

@@ -2,7 +2,7 @@
     This module store all the SQL queries
 """
 
-from utils.config import DATABASE_NAME
+from src.utils.config import DATABASE_NAME
 
 SQL_DB_DIRECTORY = 'select @@datadir;'
 

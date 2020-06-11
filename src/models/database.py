@@ -7,8 +7,8 @@ import os.path
 import mysql.connector
 from mysql.connector import Error
 
-from utils import config
-from utils import queries
+from src.utils import config
+from src.utils import queries
 
 
 class Database:
@@ -51,7 +51,7 @@ class Database:
             mycursor.execute(queries.SQL_DB_DIRECTORY)
             path = mycursor.fetchone()
 
-            print("\n", "> Connexion réussie <".center(100,"-"), "\n")
+            print("> Connexion réussie <".center(100,"-"), "\n")
 
             if len(path) != 0:
                 url_db = path[0] + self.database_name
