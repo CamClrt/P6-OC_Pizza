@@ -20,12 +20,14 @@ class Database:
         host_name=config.HOST_NAME,
         user_name=config.USER_NAME,
         user_password=config.USER_PASSWORD,
+        db_sql_file=config.DB_SQL_FILE
     ):
 
         self.database_name = database_name
         self.host_name = host_name
         self.user_name = user_name
         self.user_password = user_password
+        self.db_sql_file = db_sql_file
         self.database = None
 
     def __enter__(self):
@@ -36,6 +38,23 @@ class Database:
     def __exit__(self, *args):
         """Close the DB connection"""
         self.database.close()
+    
+    def create(self, mycursor):
+        """Create database with sql file"""
+        try:
+            with open(self.db_sql_file, 'r') as sql_file:
+                sql_commands = sql_file.read().split(';')
+            
+            #Execute each command
+            for sql_command in sql_commands:
+                print(sql_command)
+                mycursor.execute(sql_command)
+        except Error as err:
+            print(f"L'erreur '{err}' est survenue")
+    
+    def insert_data(self):
+        """Insert data in database with [TODO: .csv or .json] file"""
+        pass
 
     def connect(self):
         """Init and/or connect database"""
@@ -50,30 +69,25 @@ class Database:
             mycursor = database.cursor()
             mycursor.execute(queries.SQL_DB_DIRECTORY)
             path = mycursor.fetchone()
-
-            print("> Connexion réussie <".center(100,"-"), "\n")
-
-            if len(path) != 0:
-                url_db = path[0] + self.database_name
-                if os.path.exists(url_db):
-                    mycursor.execute(queries.SQL_USE_DB)
-                else:
-
-                    # create database and tables
-                    mycursor.execute(queries.SQL_CREATE_DB)
-                    print("> BD créée avec succès <".center(100,"-"), "\n")
-
-                    mycursor.execute(queries.SQL_USE_DB)
-                    #for name, query in queries.TABLES.items():
-                        #mycursor.execute(query)
-                        #print(f"> La table '{name}' a été créée avec succès")
-
-                    # insert data in DB
-                    print("> Insertion des données <".center(100,"-"), "\n")
-                    pass
-
+        
         except Error as err:
             print(f"L'erreur '{err}' est survenue")
+        
+        print("> Connexion réussie <".center(100,"-"), "\n")
+
+        if len(path) != 0:
+            url_db = path[0] + self.database_name
+            if os.path.exists(url_db):
+                mycursor.execute(queries.SQL_USE_DB)
+            else:
+
+                # create database and tables
+                print("> BD création des tables <".center(100,"-"), "\n")
+                self.create(mycursor)
+
+                # insert data in DB
+                print("> Insertion des données <".center(100,"-"), "\n")
+                #TODO: insertion de la méthode insert_data
 
         mycursor.close()
         return database
