@@ -3,6 +3,7 @@
 """
 
 import os.path
+from progress.bar import Bar
 
 import mysql.connector
 from mysql.connector import Error
@@ -46,9 +47,12 @@ class Database:
                 sql_commands = sql_file.read().split(';')
             
             #Execute each command
-            for sql_command in sql_commands:
-                print(sql_command)
-                mycursor.execute(sql_command)
+            with Bar("Progression", max=len(sql_commands)) as bar:
+                for sql_command in sql_commands:
+                    mycursor.execute(sql_command)
+                    
+                    bar.next()
+
         except Error as err:
             print(f"L'erreur '{err}' est survenue")
     
@@ -73,7 +77,7 @@ class Database:
         except Error as err:
             print(f"L'erreur '{err}' est survenue")
         
-        print("> Connexion réussie <".center(100,"-"), "\n")
+        print("\n", "> Connexion réussie <".center(100,"-"), "\n")
 
         if len(path) != 0:
             url_db = path[0] + self.database_name
@@ -82,11 +86,11 @@ class Database:
             else:
 
                 # create database and tables
-                print("> BD création des tables <".center(100,"-"), "\n")
+                print("\n", "> BD création des tables <".center(100,"-"), "\n")
                 self.create(mycursor)
 
                 # insert data in DB
-                print("> Insertion des données <".center(100,"-"), "\n")
+                print("\n", "> Insertion des données <".center(100,"-"), "\n")
                 #TODO: insertion de la méthode insert_data
 
         mycursor.close()
