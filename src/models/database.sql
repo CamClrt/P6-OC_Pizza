@@ -40,7 +40,6 @@ CREATE TABLE `user_account_type` (
 CREATE TABLE `recipe` (
   `ingredient_id` BIGINT UNSIGNED  NOT NULL,
   `product_id` BIGINT UNSIGNED  NOT NULL,
-  `name` VARCHAR(50) UNIQUE NOT NULL,
   `instruction` MEDIUMTEXT	 NOT NULL,
   KEY `PK, FK` (`ingredient_id`, `product_id`)
 ) ENGINE=InnoDB;
@@ -85,7 +84,7 @@ CREATE TABLE `address` (
   `establishment_id` BIGINT UNSIGNED NOT NULL,
   `city_id` BIGINT UNSIGNED NOT NULL,
   `contact_details_id` BIGINT UNSIGNED NOT NULL,
-  `digicode` TINYINT UNSIGNED,
+  `digicode` VARCHAR(10),
   `address1` VARCHAR(100),
   `address2` VARCHAR(100),
   PRIMARY KEY (`address_id`),

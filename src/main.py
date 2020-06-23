@@ -1,18 +1,17 @@
-"""
-    This application is made for the project 6 on OpenClassrooms during the
-    Python courses
-    The aim of this project is to create and test a MySQL database
-"""
+"""This application is made for the project 6 on OpenClassrooms during the
+Python courses The aim of this project is to create and test a MySQL
+database."""
 
 #! /usr/bin/env python3
 # coding: utf-8
 
+from insert_test_data import insert_data
 from src.models.database import Database
 
 if __name__ == "__main__":
-    
-    #if DB doesn't exist, init it + insert values
-    with Database() as database:
-        
-        #connect to DB and display report
-        database.connect()
+
+    # if DB doesn't exist, init it + connexion + add data
+    with Database() as cnx:
+
+        # insert data in DB
+        insert_data(cnx)
