@@ -128,9 +128,9 @@ CREATE TABLE `customer` (
   `id_address` BIGINT UNSIGNED NOT NULL,
   `first_name` VARCHAR(30),
   `last_name` VARCHAR(30),
-  `phone_number` VARCHAR(10),
+  `phone_number` VARCHAR(20),
   `birthdate` DATETIME,
-  `email` VARCHAR(100)  NOT NULL,
+  `email` VARCHAR(100)  NOT NULL UNIQUE,
   `password` BLOB  NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK` (`id_address`)

@@ -6,6 +6,7 @@ from data import RESTAURANT, STAFF
 from faker import Faker
 from src.models.restaurant import Restaurant, RestaurantManager
 from src.models.employee import Employee, EmployeeManager
+from src.models.customer import Customer, CustomerManager
 
 
 def insert_data(cnx):
@@ -48,11 +49,13 @@ def insert_data(cnx):
         # employee
         staff = STAFF
         for employee_job in staff:
+            employee_first_name = fake.first_name()
+            employee_last_name = fake.last_name()
             employee_data = {
-                'first_name': fake.first_name(),
-                'last_name': fake.last_name(),
+                'first_name': employee_first_name,
+                'last_name': employee_last_name,
                 'phone_number': fake.pystr_format(string_format='##-##-##-##-##'),
-                'email': fake.ascii_company_email(),
+                'email': f'{employee_first_name}.{employee_last_name}@OC-Pizza.com',
                 'password': bytes(fake.pystr(min_chars=0, max_chars=100), "utf-8"),
                 'job_name': employee_job,
                 'restaurant_name': restaurant,
@@ -63,7 +66,29 @@ def insert_data(cnx):
             employee_mng.create(employee_obj)
 
     # customer
-     
+    for index in range(50):
+        customer_first_name = fake.first_name()
+        customer_last_name = fake.last_name()
+        customer_data = {
+                'first_name': customer_first_name,
+                'last_name': customer_last_name,
+                'phone_number': fake.pystr_format(string_format='##-##-##-##-##'),
+                'email': f'{customer_first_name}.{customer_last_name}@gmail.com',
+                'password': bytes(fake.pystr(min_chars=0, max_chars=100), "utf-8"),
+                'birthdate': fake.date(),
+                'address1': fake.street_address(), 
+                'address2': fake.pystr(min_chars=0, max_chars=100),
+                'add_info': fake.pystr_format(string_format='##?##'), 
+                'city_name': fake.city(), 
+                'zip_code': fake.postcode(),
+            }
+
+        customer_obj = Customer(customer_data)
+        customer_mng = CustomerManager(cnx)
+        customer_mng.create(customer_obj)
+    
+    
+    # ingredient
     
     # product
     

@@ -26,7 +26,7 @@ class RestaurantManager:
             address_mng.create(restaurant_object.address)
 
             # add restaurant data + foreign key
-            SQL_INSERT_RESTAURANT = "INSERT IGNORE INTO restaurant (name, phone_number, id_address) VALUES (%(restaurant_name)s, %(phone_number)s, (SELECT id FROM Address WHERE address1=%(address1)s AND address2=%(address2)s AND additional_info=%(add_info)s));"
+            SQL_INSERT_RESTAURANT = "INSERT IGNORE INTO Restaurant (name, phone_number, id_address) VALUES (%(restaurant_name)s, %(phone_number)s, (SELECT id FROM Address WHERE address1=%(address1)s AND address2=%(address2)s AND additional_info=%(add_info)s));"
             
             cursor.execute(SQL_INSERT_RESTAURANT, restaurant_object.data)
             self.cnx.commit()
