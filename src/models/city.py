@@ -32,4 +32,3 @@ class City:
     def __repr__(self):
         """Represent city object"""
         return f"{self.name}, {self.zip_code}"
-

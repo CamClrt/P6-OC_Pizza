@@ -119,7 +119,7 @@ CREATE TABLE `category_product` (
 
 CREATE TABLE `job` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `label` VARCHAR(50) NOT NULL,
+  `label` VARCHAR(50) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
