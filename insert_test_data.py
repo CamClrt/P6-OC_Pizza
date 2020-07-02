@@ -2,53 +2,55 @@
     This module insert a set of data in order to test the database
 """
 
+from data import RESTAURANT, STAFF,
 from faker import Faker
-
-from src.models.city import CityManager, City
-from src.models.contact_details import ContactManager, Contact
-from src.models.address import AddressManager, Address
+from src.models.restaurant import Restaurant, RestaurantManager
 
 
 def insert_data(cnx):
     "insert data in the database"
+    fake = Faker('fr_FR')
+    Faker.seed(123456)
 
-    fake = Faker()
-    #fake.seed(0)
+    # restaurant
+    restaurants = RESTAURANT
+    for restaurant in restaurants:
+        data = {
+            'restaurant_name': restaurant, 
+            'phone_number': fake.pystr_format(string_format='##-##-##-##-##'), 
+            'address1': fake.street_address(), 
+            'address2': fake.pystr(min_chars=0, max_chars=100),
+            'add_info': fake.pystr_format(string_format='##?##'), 
+            'city_name': fake.city(), 
+            'zip_code': fake.postcode(),
+        }
 
-    # establishment
-
-    dico = {
-        'name':'établissement n°1', 
-        'city_name':'Asnières-sur-Seine', 
-        'zip_code':'92600', 
-        'first_name':'clarret', 
-        'last_name':'camille', 
-        'phone_number':'0658222890', 
-        'birthdate':'19/09/1988', 
-        'address1':"34 av d'Agenteuil", 
-        'address2':"étage 1 - porte gauche",
-        'digicode':'92A34', 
-    }
+        restaurant = Restaurant(data)
+        restaurant_mng = RestaurantManager(cnx)
+        restaurant_mng.create(restaurant)
     
-    city_mng = CityManager(cnx)
-    city_mng.create(City(dico))
 
-    contact_mng = ContactManager(cnx)
-    contact_mng.create(Contact(dico))
+    # employee
+    staff = STAFF
+    for employee_job in staff:
+        data = {
+            'first_name': fake.first_name_nonbinary(),
+            'last_name': fake.last_name(),
+            'phone_number': fake.pystr_format(string_format='##-##-##-##-##'),
+            'email': fake.ascii_company_email(),
+            'password': fake.pystr(min_chars=0, max_chars=100),
+            'job_name': employee_job,
+        }
 
-    address_mng = AddressManager(cnx)
-    address_mng.create(Address(dico))
-
-
-    # user
-    
-    
-    # stock
+    # customer
      
     
     # product
     
     
+    # stock
+
+
     # order
 
                 

@@ -41,3 +41,8 @@ def address_filter(tmp_address1, tmp_address2, tmp_digicode):
     address2 = tmp_address2[:100]
     digicode = tmp_digicode[:10]
     return address1, address2, digicode
+
+def establishment_filter(tmp_estab_name):
+    """Filter establishment data"""
+    name = tmp_name.capitalize()[:50]
+    return name

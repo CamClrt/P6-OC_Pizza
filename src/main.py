@@ -5,8 +5,8 @@ database."""
 #! /usr/bin/env python3
 # coding: utf-8
 
-from insert_test_data import insert_data
 from src.models.database import Database
+from insert_test_data import insert_data
 
 if __name__ == "__main__":
 

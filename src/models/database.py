@@ -1,4 +1,6 @@
-"""This module manage all operations with the database."""
+"""
+    This module manage all operations with the database
+"""
 
 import os.path
 

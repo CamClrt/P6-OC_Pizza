@@ -32,12 +32,17 @@ PAYMENT_METHOD = [
     "carte bancaire",
 ]
 
-ESTABLISHMENT = [
+RESTAURANT = [
     "Pizzeria n°1",
     "Pizzeria n°2",
     "Pizzeria n°3",
     "Pizzeria n°4",
     "Pizzeria n°5",
+    "Pizzeria n°6",
+    "Pizzeria n°7",
+    "Pizzeria n°8",
+    "Pizzeria n°9",
+    "Pizzeria n°10",
 ]
 
 INIT = [
@@ -117,4 +122,21 @@ INGREDIENT = [
     "chou kale",
     "brocoli",
     "pignons",
+]
+
+STAFF = [
+    "Manager",
+    "Assistant manager",
+    "Pizzaïolo",
+    "Pizzaïolo",
+    "Assistant pizzaïolo",
+    "Assistant pizzaïolo",
+    "Livreur",
+    "Livreur",
+    "Livreur",
+    "Livreur",
+    "Assistant livreur",
+    "Assistant livreur",
+    "Assistant livreur",
+    "Assistant livreur",
 ]

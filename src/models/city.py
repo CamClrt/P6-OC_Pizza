@@ -2,33 +2,20 @@
     This module manage all operations with the city table
 """
 
-from src.utils import queries
-from src.utils.filter import city_filter
-
 
 class CityManager:
-    """Manage city table"""
+    """Represent the manager of the city table"""
 
     def __init__(self, cnx):
         self.cnx = cnx
-
+    
     def create(self, city_object):
-        """insert city object in DB"""
-        # filter the data before insert it in DB
-        name, zip_code = city_filter(
-            city_object.name, 
-            city_object.zip_code
-            )
-        
-        # add data in dictionnary to insert it in the SQL query
-        data = {
-            'name': name, 
-            'zip_code': zip_code, 
-            }
-        
-        # execute SQL insertion
+        """insert object in DB"""
+
+        SQL_INSERT_CITY = "INSERT IGNORE INTO City (name, zip_code) VALUES (%(city_name)s, %(zip_code)s);"
+
         cursor = self.cnx.cursor()
-        cursor.execute(queries.SQL_INSERT_CITY, data)
+        cursor.execute(SQL_INSERT_CITY, city_object.data)
         self.cnx.commit()
         
         cursor.close()
@@ -37,10 +24,12 @@ class CityManager:
 class City:
     """Represent city table"""
 
-    def __init__(self, contact_dictionnary):
-        self.name = contact_dictionnary.get('city_name','')
-        self.zip_code = contact_dictionnary.get('zip_code','00000')
+    def __init__(self, data):
+        self.name = data.get('city_name')
+        self.zip_code = data.get('zip_code')
+        self.data = data
 
     def __repr__(self):
         """Represent city object"""
         return f"{self.name}, {self.zip_code}"
+
