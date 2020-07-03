@@ -13,7 +13,6 @@ class CityManager:
         """insert object in DB"""
 
         SQL_INSERT_CITY = "INSERT IGNORE INTO City (name, zip_code) VALUES (%(city_name)s, %(zip_code)s);"
-
         cursor = self.cnx.cursor()
         cursor.execute(SQL_INSERT_CITY, city_object.data)
         self.cnx.commit()

@@ -52,7 +52,7 @@ class Customer:
         self.email = data.get('email')
         self.password = data.get('password')
         self.address = Address(data)
-        self.restaurants = data.get('restaurants')
+        self.restaurants = []
 
     def __repr__(self):
         """Represent employee object"""

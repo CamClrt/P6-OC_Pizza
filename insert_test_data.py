@@ -2,17 +2,20 @@
     This module insert a set of data in order to test the database
 """
 
-from data import RESTAURANT, STAFF
+from data import RESTAURANT, STAFF, INGREDIENT
 from faker import Faker
 from src.models.restaurant import Restaurant, RestaurantManager
 from src.models.employee import Employee, EmployeeManager
 from src.models.customer import Customer, CustomerManager
+from src.models.ingredient import Ingredient, IngredientManager
+import random
 
 
 def insert_data(cnx):
     "insert data in the database"
     fake = Faker('fr_FR')
     Faker.seed(123456)
+    random.seed(123456)
 
     # restaurant
     restaurants = RESTAURANT
@@ -86,15 +89,24 @@ def insert_data(cnx):
         customer_obj = Customer(customer_data)
         customer_mng = CustomerManager(cnx)
         customer_mng.create(customer_obj)
-    
-    
-    # ingredient
+
+    # ingredient & stock
+    ingredients = INGREDIENT
+    for restaurant in restaurants:
+        for ingredient in ingredients:
+            ingredient_data = {
+                'ingredient_name': ingredient,
+                'ingredient_stock': random.randint(0,25),
+                'ingredient_restaurant': restaurant,
+            }
+
+            ingredient_obj = Ingredient(ingredient_data)
+            ingredient_mng = IngredientManager(cnx)
+            ingredient_mng.create(ingredient_obj)
     
     # product
     
-    
-    # stock
-
+    # category
 
     # order
 
