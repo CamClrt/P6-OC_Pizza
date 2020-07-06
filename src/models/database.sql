@@ -6,30 +6,30 @@ USE OC_Pizza;
 
 CREATE TABLE `status` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `label` VARCHAR(50) NOT NULL,
+  `label` VARCHAR(50) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `product` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(50) NOT NULL,
-  `description` VARCHAR(100),
-  `price_excluding_tax` DECIMAL(2,2) NOT NULL,
-  `vat_100` DECIMAL(2,2) NOT NULL,
-  PRIMARY KEY (`id`)
+  `vat_100_id` SMALLINT UNSIGNED NOT NULL,
+  `category_id` BIGINT UNSIGNED  NOT NULL,
+  `name` VARCHAR(50)  NOT NULL UNIQUE,
+  `price_excluding_tax` DECIMAL(4,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK` (`vat_100_id`, `category_id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `recipe` (
   `ingredient_id` BIGINT UNSIGNED NOT NULL,
   `product_id` BIGINT UNSIGNED NOT NULL,
-  `instruction` MEDIUMTEXT NOT NULL,
-  `quantity` DECIMAL(3,2) NOT NULL,
+  `quantity` DECIMAL(4,2) NOT NULL,
   KEY `PK, FK` (`ingredient_id`, `product_id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `payment_method` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(50) NOT NULL,
+  `name` VARCHAR(50) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
@@ -37,6 +37,7 @@ CREATE TABLE `order` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `status_id` BIGINT UNSIGNED NOT NULL,
   `payment_method_id` BIGINT UNSIGNED NOT NULL,
+  `restaurant_id` BIGINT UNSIGNED  NOT NULL,
   `order_number` BIGINT UNSIGNED NOT NULL,
   `date` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
@@ -74,7 +75,7 @@ CREATE TABLE `employee` (
   `first_name` VARCHAR(30),
   `last_name` VARCHAR(30),
   `phone_number` VARCHAR(10),
-  `email` VARCHAR(100),
+  `email` VARCHAR(100) UNIQUE,
   `password` BLOB  NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK` (`id_job`, `id_restaurant`)
@@ -135,14 +136,18 @@ CREATE TABLE `restaurant` (
 
 CREATE TABLE `category` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `parent_category_id` BIGINT UNSIGNED NOT NULL,
-  `name` VARCHAR(50),
-  PRIMARY KEY (`id`),
-  KEY `FK` (`parent_category_id`)
+  `name` VARCHAR(50) NOT NULL UNIQUE,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `restaurant_customer` (
   `restaurant_id` BIGINT UNSIGNED NOT NULL,
   `customer_id` BIGINT UNSIGNED  NOT NULL,
   KEY `PK, FK` (`restaurant_id`, `customer_id`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `vat` (
+  `id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `vat_100` DECIMAL(4,2) NOT NULL UNIQUE,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;

@@ -13,7 +13,6 @@ class JobManager:
         """insert object in DB"""
 
         SQL_INSERT_JOB = "INSERT IGNORE INTO Job (label) VALUES (%(job_name)s);"
-
         cursor = self.cnx.cursor()
         cursor.execute(SQL_INSERT_JOB, job_object.data)
         self.cnx.commit()

@@ -2,12 +2,14 @@
     This module insert a set of data in order to test the database
 """
 
-from data import RESTAURANT, STAFF, INGREDIENT
+from data import RESTAURANT, STAFF, INGREDIENT, PRODUCT, CATEGORY, VAT, STATUS, PAYMENT_METHOD
 from faker import Faker
 from src.models.restaurant import Restaurant, RestaurantManager
 from src.models.employee import Employee, EmployeeManager
 from src.models.customer import Customer, CustomerManager
 from src.models.ingredient import Ingredient, IngredientManager
+from src.models.product import Product, ProductManager
+from src.models.recipe import Recipe, RecipeManager
 import random
 
 
@@ -96,7 +98,7 @@ def insert_data(cnx):
         for ingredient in ingredients:
             ingredient_data = {
                 'ingredient_name': ingredient,
-                'ingredient_stock': random.randint(0,25),
+                'ingredient_stock': random.randint(0, 25),
                 'ingredient_restaurant': restaurant,
             }
 
@@ -104,10 +106,48 @@ def insert_data(cnx):
             ingredient_mng = IngredientManager(cnx)
             ingredient_mng.create(ingredient_obj)
     
-    # product
+    # product, vat, & category
+    recipes = {}
+    products = PRODUCT
+    for product in products:
+        product_data = {
+            'product_name': product, 
+            'vat_100': random.choice(VAT), 
+            'price_excluding_tax': random.randint(9, 20), 
+            'category': random.choice(CATEGORY), 
+        }
+
+        recipe_data = []
+        recipe_data = [(ingredient_recipe, random.randint(1, 3)) for ingredient_recipe in random.choices(INGREDIENT, k=(random.randint(1, 5)))]
+        recipes[product] = recipe_data
+
+        product_obj = Product(product_data, recipe_data)
+        product_mng = ProductManager(cnx)
+        product_mng.create(product_obj)
     
-    # category
+    # recipe
+    recipe_mng = RecipeManager(cnx)
+    for recipe_name, instruction in recipes.items():
+        recipe_obj = Recipe(instruction, recipe_name)
+        recipe_mng.create(recipe_obj)
 
     # order
+    SQL_SELECT_CUSTOMER = "SELECT email FROM Customer;"
+    cursor = cnx.cursor()
+    cursor.execute(SQL_SELECT_CUSTOMER)
+    customer_list = cursor.fetchall()
 
-                
+    for order in range(100):
+        order_status = random.choice(STATUS)
+        order_payment_method = random.choice(PAYMENT_METHOD)
+        order_restaurant = random.choice(RESTAURANT)
+        order_customer = random.choice(customer_list)
+        order_data = {
+            'date': fake.date(),
+            'order_status': order_status,
+            'order_payment_method': order_payment_method,
+            'order_restaurant': order_restaurant,
+            'order_customer': order_customer,
+            'order': random.choices(PRODUCT, k=(random.randint(1, 10))),
+        }
+    

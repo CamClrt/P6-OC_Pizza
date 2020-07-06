@@ -1,19 +1,3 @@
-ACCESS = [
-    "Créer",
-    "Lire",
-    "Mettre à jour",
-    "Supprimer",
-]
-
-ACCOUNT_TYPE = [
-    "Administrateur",
-    "Fondateur",
-    "Responsable",
-    "Pizzaïolo",
-    "Livreur",
-    "Client",
-]
-
 STATUS = [
     "en attente de préparation",
     "en préparation",
@@ -45,17 +29,6 @@ RESTAURANT = [
     "Pizzeria n°10",
 ]
 
-INIT = [
-    {"pièce": "pièce"},
-    {"pincée": "pincée"},
-    {"grammes": "g"},
-    {"kilogrammes": "kg"},
-    {"litre": "L"},
-    {"décilitre": "dL"},
-    {"centilitre": "cL"},
-    {"millilitre": "mL"},
-]
-
 PRODUCT = [
     "MARGHERITA",
     "BURRATA FELICITÀ",
@@ -74,10 +47,10 @@ PRODUCT = [
 CATEGORY = [
     "LES BEST SELLERS",
     "LES INCONTOURNABLES",
+    "LES NOUVEAUTES",
     "LES VEGETARIENNES",
     "LES VEGANNES",
     "LES CARNIVORES",
-    "LES NOUVEAUTES",
 ]
 
 INGREDIENT = [
@@ -133,4 +106,11 @@ STAFF = [
     "Livreur",
     "Livreur",
     "Livreur",
+]
+
+VAT = [
+    "20.00", 
+    "19.60",
+    "10.00",
+    "5.50",
 ]
