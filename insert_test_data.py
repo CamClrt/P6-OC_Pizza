@@ -1,32 +1,25 @@
-"""
-    This module insert a set of data in order to test the database
-"""
+"""This module insert a set of data in order to test the database."""
 
-from data import (
-    RESTAURANT,
-    STAFF,
-    INGREDIENT,
-    PRODUCT,
-    CATEGORY,
-    VAT,
-    STATUS,
-    PAYMENT_METHOD,
-)
-from faker import Faker
-from src.models.restaurant import Restaurant, RestaurantManager
-from src.models.employee import Employee, EmployeeManager
-from src.models.customer import Customer, CustomerManager
-from src.models.ingredient import Ingredient, IngredientManager
-from src.models.product import Product, ProductManager
-from src.models.recipe import Recipe, RecipeManager
-from src.models.purchase_order import PurchaseOrder, PurchaseOrderManager
-from src.models.order_product import OrderProduct, OrderProductManager
-from src.models.restaurant_customer import RestaurantCustomerManager, RestaurantCustomer
 import random
+
+from faker import Faker
+
+from data import (CATEGORY, INGREDIENT, PAYMENT_METHOD, PRODUCT, RESTAURANT,
+                  STAFF, STATUS, VAT)
+from src.models.customer import Customer, CustomerManager
+from src.models.employee import Employee, EmployeeManager
+from src.models.ingredient import Ingredient, IngredientManager
+from src.models.order_product import OrderProduct, OrderProductManager
+from src.models.product import Product, ProductManager
+from src.models.purchase_order import PurchaseOrder, PurchaseOrderManager
+from src.models.recipe import Recipe, RecipeManager
+from src.models.restaurant import Restaurant, RestaurantManager
+from src.models.restaurant_customer import (RestaurantCustomer,
+                                            RestaurantCustomerManager)
 
 
 def insert_data(cnx):
-    "insert data in the database"
+    """insert data in the database."""
     fake = Faker("fr_FR")
     Faker.seed(123456)
     random.seed(123456)
@@ -110,7 +103,9 @@ def insert_data(cnx):
         customer_mng.create(customer_obj)
 
         restaurant_list = random.choices(RESTAURANT, k=random.randint(1, 8))
-        restau_custom_obj = RestaurantCustomer(customer_data.get('email'), restaurant_list)
+        restau_custom_obj = RestaurantCustomer(
+            customer_data.get("email"), restaurant_list
+        )
         restau_custom_mng.create(restau_custom_obj)
 
     # ingredient & stock

@@ -1,18 +1,24 @@
-"""
-    This module manage all operations with the city table
-"""
+"""This module manage all operations with the city table."""
 
 
 class CityManager:
-    """Represent the manager of the city table"""
+    """Represent the manager of the city table."""
 
     def __init__(self, cnx):
         self.cnx = cnx
 
     def create(self, city_object):
-        """insert object in DB"""
+        """insert object in DB."""
 
-        SQL_INSERT_CITY = "INSERT IGNORE INTO City (name, zip_code) VALUES (%(city_name)s, %(zip_code)s);"
+        SQL_INSERT_CITY = """
+        INSERT IGNORE INTO City (
+            name,
+            zip_code
+            ) VALUES (
+                %(city_name)s,
+                %(zip_code)s
+                );
+                """
         cursor = self.cnx.cursor()
         cursor.execute(SQL_INSERT_CITY, city_object.data)
         self.cnx.commit()
@@ -21,7 +27,7 @@ class CityManager:
 
 
 class City:
-    """Represent city table"""
+    """Represent city table."""
 
     def __init__(self, data):
         self.name = data.get("city_name")
@@ -29,5 +35,5 @@ class City:
         self.data = data
 
     def __repr__(self):
-        """Represent city object"""
-        return f"{self.name}, {self.zip_code}"
+        """Represent city object."""
+        return f"{self.name}: {self.zip_code}"

@@ -2,11 +2,11 @@
 Python courses The aim of this project is to create and test a MySQL
 database."""
 
-#! /usr/bin/env python3
+# !/usr/bin/env python3
 # coding: utf-8
 
-from src.models.database import Database
 from insert_test_data import insert_data
+from src.models.database import Database
 
 if __name__ == "__main__":
 

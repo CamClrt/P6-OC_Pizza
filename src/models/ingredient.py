@@ -1,20 +1,20 @@
-"""
-    This module manage all operations with the ingredient table
-"""
+"""This module manage all operations with the ingredient table."""
 
 from src.models.stock import Stock, StockManager
 
 
 class IngredientManager:
-    """Represent the manager of the ingredient table"""
+    """Represent the manager of the ingredient table."""
 
     def __init__(self, cnx):
         self.cnx = cnx
 
     def create(self, ingredient_object):
-        """insert object in DB"""
+        """insert object in DB."""
 
-        SQL_INSERT_INGREDIENT = "INSERT IGNORE INTO Ingredient (name) VALUES (%(ingredient_name)s);"
+        SQL_INSERT_INGREDIENT = """
+        INSERT IGNORE INTO Ingredient (name) VALUES (%(ingredient_name)s);
+        """
         cursor = self.cnx.cursor()
         cursor.execute(SQL_INSERT_INGREDIENT, ingredient_object.data)
         self.cnx.commit()
@@ -28,12 +28,12 @@ class IngredientManager:
 
 
 class Ingredient:
-    """Represent ingredient table"""
+    """Represent ingredient table."""
 
     def __init__(self, data):
         self.name = data.get("ingredient_name")
         self.data = data
 
     def __repr__(self):
-        """Represent ingredient object"""
+        """Represent ingredient object."""
         return f"{self.name}"

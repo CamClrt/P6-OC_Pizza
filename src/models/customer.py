@@ -1,20 +1,17 @@
-"""
-    This module manage all operations with the customer table
-"""
+"""This module manage all operations with the customer table."""
 
 
-from src.models.address import AddressManager, Address
-from src.models.restaurant import RestaurantManager, Restaurant
+from src.models.address import Address, AddressManager
 
 
 class CustomerManager:
-    """Represent the manager of the customer table"""
+    """Represent the manager of the customer table."""
 
     def __init__(self, cnx):
         self.cnx = cnx
 
     def create(self, customer_object):
-        """insert object in DB"""
+        """insert object in DB."""
 
         # Check if the customer already exists
         SQL_SELECT_CUSTOMER = "SELECT * FROM Customer WHERE email=%(email)s;"
@@ -22,13 +19,32 @@ class CustomerManager:
         cursor.execute(SQL_SELECT_CUSTOMER, customer_object.data)
         already_exist = cursor.fetchone()
 
-        if already_exist == None:
+        if already_exist is None:
             # add the address
             address_mng = AddressManager(self.cnx)
             address_mng.create(customer_object.address)
 
             # add customer data + foreign key
-            SQL_INSERT_CUSTOMER = "INSERT IGNORE INTO Customer (first_name, last_name, phone_number, birthdate, email, password, id_address) VALUES (%(first_name)s, %(last_name)s, %(phone_number)s, %(birthdate)s, %(email)s, %(password)s, (SELECT id FROM Address WHERE address1=%(address1)s AND address2=%(address2)s));"
+            SQL_INSERT_CUSTOMER = """
+            INSERT IGNORE INTO Customer (
+                first_name,
+                last_name,
+                phone_number,
+                birthdate,
+                email,
+                password,
+                id_address)
+                VALUES (
+                    %(first_name)s,
+                    %(last_name)s,
+                    %(phone_number)s,
+                    %(birthdate)s,
+                    %(email)s,
+                    %(password)s, (
+                        SELECT id FROM Address WHERE address1=%(address1)s
+                        AND address2=%(address2)s)
+                        );
+                        """
             cursor.execute(SQL_INSERT_CUSTOMER, customer_object.data)
             self.cnx.commit()
 
@@ -36,7 +52,7 @@ class CustomerManager:
 
 
 class Customer:
-    """Represent customer table"""
+    """Represent customer table."""
 
     def __init__(self, data):
         self.data = data
@@ -50,5 +66,13 @@ class Customer:
         self.restaurants = []
 
     def __repr__(self):
-        """Represent employee object"""
-        return f"{self.first_name}, {self.last_name}, {self.phone_number}, {self.email}, {self.address}, {self.birthdate}"
+        """Represent customer object."""
+        elements = [
+            self.first_name,
+            self.last_name,
+            self.phone_number,
+            self.birthdate,
+            self.email,
+            self.address,
+        ]
+        return ",".join(elements)

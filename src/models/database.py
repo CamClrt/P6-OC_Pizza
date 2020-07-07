@@ -1,6 +1,4 @@
-"""
-    This module manage all operations with the database
-"""
+"""This module manage all operations with the database."""
 
 import os.path
 
@@ -8,7 +6,8 @@ import mysql.connector
 from mysql.connector import Error
 from progress.bar import Bar
 
-from src.utils import config, queries
+from src.utils.config import (DATABASE_NAME, DB_SQL_FILE, HOST_NAME, USER_NAME,
+                              USER_PASSWORD)
 
 
 class Database:
@@ -16,11 +15,11 @@ class Database:
 
     def __init__(
         self,
-        database_name=config.DATABASE_NAME,
-        host_name=config.HOST_NAME,
-        user_name=config.USER_NAME,
-        user_password=config.USER_PASSWORD,
-        db_sql_file=config.DB_SQL_FILE,
+        database_name=DATABASE_NAME,
+        host_name=HOST_NAME,
+        user_name=USER_NAME,
+        user_password=USER_PASSWORD,
+        db_sql_file=DB_SQL_FILE,
     ):
 
         self.database_name = database_name
@@ -65,7 +64,8 @@ class Database:
             )
 
             cursor = cnx.cursor()
-            cursor.execute(queries.SQL_DB_DIRECTORY)
+            SQL_DB_DIRECTORY = "select @@datadir;"
+            cursor.execute(SQL_DB_DIRECTORY)
             path = cursor.fetchone()
 
         except Error as err:
@@ -76,7 +76,8 @@ class Database:
         if len(path) != 0:
             url_db = path[0] + self.database_name
             if os.path.exists(url_db):
-                cursor.execute(queries.SQL_USE_DB)
+                SQL_USE_DB = "USE " + DATABASE_NAME + ";"
+                cursor.execute(SQL_USE_DB)
             else:
                 # create database and tables
                 print("\n", "> Création des tables <".center(100, "-"), "\n")

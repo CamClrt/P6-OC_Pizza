@@ -1,26 +1,42 @@
-"""
-    This module manage all operations with the employee table
-"""
+"""This module manage all operations with the employee table."""
 
 from src.models.job import Job, JobManager
 
 
 class EmployeeManager:
-    """Represent the manager of the employee table"""
+    """Represent the manager of the employee table."""
 
     def __init__(self, cnx):
         self.cnx = cnx
 
     def create(self, employee_object):
-        """insert object in DB"""
+        """insert object in DB."""
 
         # add the job
         job_mng = JobManager(self.cnx)
         job_mng.create(employee_object.job)
 
         # add employee data + foreign key
-        SQL_INSERT_EMPLOYEE = "INSERT IGNORE INTO Employee (first_name, last_name, phone_number, email, password, id_restaurant, id_job) VALUES (%(first_name)s, %(last_name)s, %(phone_number)s, %(email)s, %(password)s, (SELECT id FROM Restaurant WHERE name=%(restaurant_name)s), (SELECT id FROM Job WHERE label=%(job_name)s));"
-
+        SQL_INSERT_EMPLOYEE = """
+        INSERT IGNORE INTO Employee (
+            first_name,
+            last_name,
+            phone_number,
+            email,
+            password,
+            id_restaurant,
+            id_job) VALUES (
+                %(first_name)s,
+                %(last_name)s,
+                %(phone_number)s,
+                %(email)s,
+                %(password)s, (
+                    SELECT id FROM Restaurant
+                    WHERE name=%(restaurant_name)s), (
+                        SELECT id FROM Job
+                        WHERE label=%(job_name)s)
+                        );
+                        """
         cursor = self.cnx.cursor()
         cursor.execute(SQL_INSERT_EMPLOYEE, employee_object.data)
         self.cnx.commit()
@@ -29,7 +45,7 @@ class EmployeeManager:
 
 
 class Employee:
-    """Represent employee table"""
+    """Represent employee table."""
 
     def __init__(self, data):
         self.data = data
@@ -41,5 +57,12 @@ class Employee:
         self.job = Job(data)
 
     def __repr__(self):
-        """Represent employee object"""
-        return f"{self.first_name}, {self.last_name}, {self.phone_number}, {self.email}, {self.job}"
+        """Represent employee object."""
+        elements = [
+            self.first_name,
+            self.last_name,
+            self.phone_number,
+            self.email,
+            self.job,
+        ]
+        return ",".join(elements)
