@@ -27,7 +27,7 @@ class OrderProductManager:
             )
             self.cnx.commit()
 
-            cursor.close()
+        cursor.close()
 
 
 class OrderProduct:
@@ -39,4 +39,4 @@ class OrderProduct:
 
         def __repr__(self):
             """Represent purchase order product object"""
-            return f"{self.order}{self.products}"
+            return f"{self.order}, {self.products}"

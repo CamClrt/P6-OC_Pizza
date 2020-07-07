@@ -2,8 +2,6 @@
     This module manage all operations with the restaurant customer table
 """
 
-from data import RESTAURANT
-
 
 class RestaurantCustomerManager:
     """Represent the manager of the restaurant customer table"""
@@ -14,14 +12,20 @@ class RestaurantCustomerManager:
     def create(self, restaurant_customer_object):
         """insert object in DB"""
 
-        restaurants = RESTAURANT
-
-        for restaurant in restaurants:
-            SQL_INSERT_RESTAURANT_CUSTOMER = "INSERT IGNORE INTO Restaurant_Customer (customer_id, restaurant_id) VALUES((SELECT id FROM Customer WHERE email=%s), (SELECT id FROM Restaurant WHERE name=%s));"
+        for restaurant in restaurant_customer_object.restaurants:
+            SQL_INSERT_RESTAURANT_CUSTOMER = """
+            INSERT IGNORE INTO Restaurant_Customer (
+                customer_id, 
+                restaurant_id) 
+                VALUES(
+                    (SELECT id FROM Customer WHERE email=%s), 
+                    (SELECT id FROM Restaurant WHERE name=%s)
+                    );
+                    """
             cursor = self.cnx.cursor()
             cursor.execute(
                 SQL_INSERT_RESTAURANT_CUSTOMER,
-                (restaurant_customer_object.data.get("email"), restaurant),
+                (restaurant_customer_object.customer, restaurant),
             )
             self.cnx.commit()
 
@@ -29,7 +33,12 @@ class RestaurantCustomerManager:
 
 
 class RestaurantCustomer:
-    """Represent customer table"""
+    """Represent restaurant customer table"""
 
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, customer, restaurants):
+        self.restaurants = restaurants
+        self.customer = customer
+
+    def __repr__(self):
+        """Represent restaurant customer object"""
+        return f"{self.customer}, {self.restaurants}"

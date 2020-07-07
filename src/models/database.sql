@@ -143,7 +143,7 @@ CREATE TABLE `category` (
 
 CREATE TABLE `restaurant_customer` (
   `restaurant_id` BIGINT UNSIGNED NOT NULL,
-  `customer_id` BIGINT UNSIGNED  NOT NULL,
+  `customer_id` BIGINT UNSIGNED  NOT NULL UNIQUE,
   KEY `PK, FK` (`restaurant_id`, `customer_id`)
 ) ENGINE=InnoDB;
 

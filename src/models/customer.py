@@ -2,10 +2,7 @@
     This module manage all operations with the customer table
 """
 
-from src.models.restaurant_customer import (
-    RestaurantCustomerManager,
-    RestaurantCustomer,
-)
+
 from src.models.address import AddressManager, Address
 from src.models.restaurant import RestaurantManager, Restaurant
 
@@ -34,13 +31,6 @@ class CustomerManager:
             SQL_INSERT_CUSTOMER = "INSERT IGNORE INTO Customer (first_name, last_name, phone_number, birthdate, email, password, id_address) VALUES (%(first_name)s, %(last_name)s, %(phone_number)s, %(birthdate)s, %(email)s, %(password)s, (SELECT id FROM Address WHERE address1=%(address1)s AND address2=%(address2)s));"
             cursor.execute(SQL_INSERT_CUSTOMER, customer_object.data)
             self.cnx.commit()
-
-            # link customer with his or their restaurant
-            restaurant_customer_object = RestaurantCustomer(
-                customer_object.data
-            )
-            restaurant_customer_mng = RestaurantCustomerManager(self.cnx)
-            restaurant_customer_mng.create(restaurant_customer_object)
 
         cursor.close()
 

@@ -21,6 +21,7 @@ from src.models.product import Product, ProductManager
 from src.models.recipe import Recipe, RecipeManager
 from src.models.purchase_order import PurchaseOrder, PurchaseOrderManager
 from src.models.order_product import OrderProduct, OrderProductManager
+from src.models.restaurant_customer import RestaurantCustomerManager, RestaurantCustomer
 import random
 
 
@@ -87,6 +88,7 @@ def insert_data(cnx):
 
     # customer
     customer_mng = CustomerManager(cnx)
+    restau_custom_mng = RestaurantCustomerManager(cnx)
     for index in range(50):
         customer_first_name = fake.first_name()
         customer_last_name = fake.last_name()
@@ -106,6 +108,10 @@ def insert_data(cnx):
 
         customer_obj = Customer(customer_data)
         customer_mng.create(customer_obj)
+
+        restaurant_list = random.choices(RESTAURANT, k=random.randint(1, 8))
+        restau_custom_obj = RestaurantCustomer(customer_data.get('email'), restaurant_list)
+        restau_custom_mng.create(restau_custom_obj)
 
     # ingredient & stock
     ingredients = INGREDIENT
