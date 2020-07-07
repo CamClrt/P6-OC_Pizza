@@ -2,7 +2,10 @@
     This module manage all operations with the customer table
 """
 
-from src.models.restaurant_customer import RestaurantCustomerManager, RestaurantCustomer
+from src.models.restaurant_customer import (
+    RestaurantCustomerManager,
+    RestaurantCustomer,
+)
 from src.models.address import AddressManager, Address
 from src.models.restaurant import RestaurantManager, Restaurant
 
@@ -12,7 +15,7 @@ class CustomerManager:
 
     def __init__(self, cnx):
         self.cnx = cnx
-    
+
     def create(self, customer_object):
         """insert object in DB"""
 
@@ -31,12 +34,14 @@ class CustomerManager:
             SQL_INSERT_CUSTOMER = "INSERT IGNORE INTO Customer (first_name, last_name, phone_number, birthdate, email, password, id_address) VALUES (%(first_name)s, %(last_name)s, %(phone_number)s, %(birthdate)s, %(email)s, %(password)s, (SELECT id FROM Address WHERE address1=%(address1)s AND address2=%(address2)s));"
             cursor.execute(SQL_INSERT_CUSTOMER, customer_object.data)
             self.cnx.commit()
-        
+
             # link customer with his or their restaurant
-            restaurant_customer_object = RestaurantCustomer(customer_object.data)
+            restaurant_customer_object = RestaurantCustomer(
+                customer_object.data
+            )
             restaurant_customer_mng = RestaurantCustomerManager(self.cnx)
             restaurant_customer_mng.create(restaurant_customer_object)
-        
+
         cursor.close()
 
 
@@ -45,12 +50,12 @@ class Customer:
 
     def __init__(self, data):
         self.data = data
-        self.first_name = data.get('first_name')
-        self.last_name = data.get('last_name')
-        self.phone_number = data.get('phone_number')
-        self.birthdate = data.get('birthdate')
-        self.email = data.get('email')
-        self.password = data.get('password')
+        self.first_name = data.get("first_name")
+        self.last_name = data.get("last_name")
+        self.phone_number = data.get("phone_number")
+        self.birthdate = data.get("birthdate")
+        self.email = data.get("email")
+        self.password = data.get("password")
         self.address = Address(data)
         self.restaurants = []
 

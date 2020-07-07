@@ -10,7 +10,7 @@ class AddressManager:
 
     def __init__(self, cnx):
         self.cnx = cnx
-    
+
     def create(self, address_object):
         """insert object in DB"""
 
@@ -24,19 +24,22 @@ class AddressManager:
         cursor = self.cnx.cursor()
         cursor.execute(SQL_INSERT_ADDRESS, address_object.data)
         self.cnx.commit()
-        
+
         cursor.close()
+
 
 class Address:
     """Represent address table"""
 
     def __init__(self, data):
         self.data = data
-        self.address1 = data.get('address1')
-        self.address2 = data.get('address2')
-        self.add_info = data.get('add_info')
+        self.address1 = data.get("address1")
+        self.address2 = data.get("address2")
+        self.add_info = data.get("add_info")
         self.city = City(data)
 
     def __repr__(self):
         """Represent address object"""
-        return f"{self.address1}, {self.address2}, {self.add_info}, {self.city}"
+        return (
+            f"{self.address1}, {self.address2}, {self.add_info}, {self.city}"
+        )

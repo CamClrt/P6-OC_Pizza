@@ -10,7 +10,7 @@ class IngredientManager:
 
     def __init__(self, cnx):
         self.cnx = cnx
-    
+
     def create(self, ingredient_object):
         """insert object in DB"""
 
@@ -19,11 +19,11 @@ class IngredientManager:
         cursor.execute(SQL_INSERT_INGREDIENT, ingredient_object.data)
         self.cnx.commit()
 
-        #insert stock
+        # insert stock
         stock_obj = Stock(ingredient_object.data)
         stock_mng = StockManager(self.cnx)
         stock_mng.create(stock_obj)
-        
+
         cursor.close()
 
 
@@ -31,7 +31,7 @@ class Ingredient:
     """Represent ingredient table"""
 
     def __init__(self, data):
-        self.name = data.get('ingredient_name')
+        self.name = data.get("ingredient_name")
         self.data = data
 
     def __repr__(self):

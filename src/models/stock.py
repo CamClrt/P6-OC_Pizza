@@ -8,7 +8,7 @@ class StockManager:
 
     def __init__(self, cnx):
         self.cnx = cnx
-    
+
     def create(self, stock_object):
         """insert object in DB"""
 
@@ -16,7 +16,7 @@ class StockManager:
         cursor = self.cnx.cursor()
         cursor.execute(SQL_INSERT_STOCK, stock_object.data)
         self.cnx.commit()
-        
+
         cursor.close()
 
 
@@ -24,9 +24,9 @@ class Stock:
     """Represent stock table"""
 
     def __init__(self, data):
-        self.quantity = data.get('ingredient_stock')
-        self.ingredient = data.get('ingredient_name')
-        self.restaurant = data.get('ingredient_restaurant')
+        self.quantity = data.get("ingredient_stock")
+        self.ingredient = data.get("ingredient_name")
+        self.restaurant = data.get("ingredient_restaurant")
         self.data = data
 
     def __repr__(self):

@@ -33,15 +33,16 @@ CREATE TABLE `payment_method` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
-CREATE TABLE `order` (
+CREATE TABLE `purchase_order` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `status_id` BIGINT UNSIGNED NOT NULL,
   `payment_method_id` BIGINT UNSIGNED NOT NULL,
   `restaurant_id` BIGINT UNSIGNED  NOT NULL,
   `order_number` BIGINT UNSIGNED NOT NULL,
+  `customer_id` BIGINT UNSIGNED NOT NULL,
   `date` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK` (`status_id`, `payment_method_id`)
+  KEY `FK` (`status_id`, `payment_method_id`, `restaurant_id`, `customer_id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `address` (

@@ -8,7 +8,7 @@ class RecipeManager:
 
     def __init__(self, cnx):
         self.cnx = cnx
-    
+
     def create(self, recipe_object):
         """insert object in DB"""
 
@@ -17,8 +17,10 @@ class RecipeManager:
             quantity = recipe_detail[1]
             SQL_INSERT_RECIPE = "INSERT IGNORE INTO Recipe (ingredient_id, product_id, quantity) VALUES ((SELECT id FROM Ingredient WHERE name=%s), (SELECT id FROM Product WHERE name=%s), %s);"
             cursor = self.cnx.cursor()
-            cursor.execute(SQL_INSERT_RECIPE, (ingredient, recipe_object.product, quantity, ))
-            print(cursor.statement)
+            cursor.execute(
+                SQL_INSERT_RECIPE,
+                (ingredient, recipe_object.product, quantity,),
+            )
             self.cnx.commit()
 
         cursor.close()

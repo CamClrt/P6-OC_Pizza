@@ -8,7 +8,7 @@ class CityManager:
 
     def __init__(self, cnx):
         self.cnx = cnx
-    
+
     def create(self, city_object):
         """insert object in DB"""
 
@@ -16,7 +16,7 @@ class CityManager:
         cursor = self.cnx.cursor()
         cursor.execute(SQL_INSERT_CITY, city_object.data)
         self.cnx.commit()
-        
+
         cursor.close()
 
 
@@ -24,8 +24,8 @@ class City:
     """Represent city table"""
 
     def __init__(self, data):
-        self.name = data.get('city_name')
-        self.zip_code = data.get('zip_code')
+        self.name = data.get("city_name")
+        self.zip_code = data.get("zip_code")
         self.data = data
 
     def __repr__(self):

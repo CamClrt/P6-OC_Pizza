@@ -42,8 +42,8 @@ class Database:
     def create(self, cursor):
         """Create database with sql file."""
         try:
-            with open(self.db_sql_file, 'r') as sql_file:
-                sql_commands = sql_file.read().split(';')
+            with open(self.db_sql_file, "r") as sql_file:
+                sql_commands = sql_file.read().split(";")
 
             # Execute each command
             with Bar("Progression", max=len(sql_commands)) as bar:
