@@ -3,6 +3,7 @@
 import random
 
 from faker import Faker
+from passlib.hash import pbkdf2_sha256
 
 from data import (CATEGORY, INGREDIENT, PAYMENT_METHOD, PRODUCT, RESTAURANT,
                   STAFF, STATUS, VAT)
@@ -47,7 +48,9 @@ def insert_data(cnx):
             "last_name": "Dupont",
             "phone_number": "00-00-00-00-00",
             "email": "lola.dupont@OC-Pizza.com",
-            "password": bytes("vive-nos-pizzas", "utf-8"),
+            "password": pbkdf2_sha256.hash(
+                fake.pystr(min_chars=6, max_chars=20)
+            ),
             "job_name": "Founder",
             "restaurant_name": restaurant,
         }
@@ -69,8 +72,8 @@ def insert_data(cnx):
                     string_format="##-##-##-##-##"
                 ),
                 "email": f"{employee_first_name}.{employee_last_name}@OC-Pizza.com",
-                "password": bytes(
-                    fake.pystr(min_chars=0, max_chars=100), "utf-8"
+                "password": pbkdf2_sha256.hash(
+                    fake.pystr(min_chars=6, max_chars=20)
                 ),
                 "job_name": employee_job,
                 "restaurant_name": restaurant,
@@ -90,7 +93,9 @@ def insert_data(cnx):
             "last_name": customer_last_name,
             "phone_number": fake.pystr_format(string_format="##-##-##-##-##"),
             "email": f"{customer_first_name}.{customer_last_name}@gmail.com",
-            "password": bytes(fake.pystr(min_chars=0, max_chars=100), "utf-8"),
+            "password": pbkdf2_sha256.hash(
+                fake.pystr(min_chars=6, max_chars=20)
+            ),
             "birthdate": fake.date(),
             "address1": fake.street_address(),
             "address2": fake.pystr(min_chars=0, max_chars=100),

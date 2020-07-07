@@ -77,7 +77,7 @@ CREATE TABLE `employee` (
   `last_name` VARCHAR(30),
   `phone_number` VARCHAR(10),
   `email` VARCHAR(100) UNIQUE,
-  `password` BLOB  NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK` (`id_job`, `id_restaurant`)
 ) ENGINE=InnoDB;
@@ -121,7 +121,7 @@ CREATE TABLE `customer` (
   `phone_number` VARCHAR(20),
   `birthdate` DATETIME,
   `email` VARCHAR(100) NOT NULL UNIQUE,
-  `password` BLOB  NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK` (`id_address`)
 ) ENGINE=InnoDB;
