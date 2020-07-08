@@ -8,7 +8,7 @@ class OrderProductManager:
         self.cnx = cnx
 
     def create(self, order_product_object):
-        """insert object in DB."""
+        """insert relation in DB."""
 
         for product in order_product_object.products:
             SQL_INSERT_ORDER_PRODUCT = """

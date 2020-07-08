@@ -8,7 +8,7 @@ class RestaurantCustomerManager:
         self.cnx = cnx
 
     def create(self, restaurant_customer_object):
-        """insert object in DB."""
+        """insert relation in DB."""
 
         for restaurant in restaurant_customer_object.restaurants:
             SQL_INSERT_RESTAURANT_CUSTOMER = """

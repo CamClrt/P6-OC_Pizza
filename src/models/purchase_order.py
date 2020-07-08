@@ -1,7 +1,7 @@
 """This module manage all operations with the purchase order table."""
 
+from src.models.order_status import OrderStatus, OrderStatusManager
 from src.models.payment_method import Payment_method, Payment_methodManager
-from src.models.status import Status, StatusManager
 
 
 class PurchaseOrderManager:
@@ -17,21 +17,16 @@ class PurchaseOrderManager:
         payment_method_mng = Payment_methodManager(self.cnx)
         payment_method_mng.create(order_object.payment_method)
 
-        # create status if doesn't exist
-        status_mng = StatusManager(self.cnx)
-        status_mng.create(order_object.status)
-
         # create order
         SQL_INSERT_ORDER = """
         INSERT IGNORE INTO Purchase_order (
-            date,
             order_number,
             status_id,
             payment_method_id,
             restaurant_id,
-            customer_id)
+            customer_id,
+            address_id)
             VALUES (
-                %(date)s,
                 %(order_number)s,
                 (SELECT id FROM Status
                 WHERE label=%(order_status)s),
@@ -40,6 +35,8 @@ class PurchaseOrderManager:
                 (SELECT id FROM Restaurant
                 WHERE name=%(order_restaurant)s),
                 (SELECT id FROM Customer
+                WHERE email=%(order_customer)s),
+                (SELECT id_address FROM Customer
                 WHERE email=%(order_customer)s)
                 );
                 """
@@ -49,12 +46,20 @@ class PurchaseOrderManager:
 
         cursor.close()
 
+        # create status
+        order_status_obj = OrderStatus(
+            order_object.order_number,
+            "en attente de préparation",
+            order_object.date,
+        )
+        order_status_mng = OrderStatusManager(self.cnx)
+        order_status_mng.create(order_status_obj)
+
 
 class PurchaseOrder:
     """Represent purchase order table."""
 
     def __init__(self, data):
-        self.status = Status(data)
         self.payment_method = Payment_method(data)
         self.restaurant = data.get("order_restaurant")
         self.customer = data.get("order_customer")
@@ -65,7 +70,6 @@ class PurchaseOrder:
     def __repr__(self):
         """Represent purchase order object."""
         elements = [
-            self.date,
             self.order_number,
             self.restaurant,
             self.status,

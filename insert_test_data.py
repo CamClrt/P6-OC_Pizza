@@ -1,27 +1,41 @@
 """This module insert a set of data in order to test the database."""
 
 import random
+from datetime import datetime
 
 from faker import Faker
 from passlib.hash import pbkdf2_sha256
 
-from data import (CATEGORY, INGREDIENT, PAYMENT_METHOD, PRODUCT, RESTAURANT,
-                  STAFF, STATUS, VAT)
+from data import (
+    CATEGORY,
+    INGREDIENT,
+    PAYMENT_METHOD,
+    PRODUCT,
+    RESTAURANT,
+    STAFF,
+    STATUS,
+    VAT,
+)
 from src.models.customer import Customer, CustomerManager
 from src.models.employee import Employee, EmployeeManager
 from src.models.ingredient import Ingredient, IngredientManager
 from src.models.order_product import OrderProduct, OrderProductManager
+from src.models.order_status import OrderStatus, OrderStatusManager
 from src.models.product import Product, ProductManager
 from src.models.purchase_order import PurchaseOrder, PurchaseOrderManager
 from src.models.recipe import Recipe, RecipeManager
 from src.models.restaurant import Restaurant, RestaurantManager
-from src.models.restaurant_customer import (RestaurantCustomer,
-                                            RestaurantCustomerManager)
+from src.models.restaurant_customer import (
+    RestaurantCustomer,
+    RestaurantCustomerManager,
+)
+from src.models.status import Status, StatusManager
 
 
 def insert_data(cnx):
     """insert data in the database."""
     fake = Faker("fr_FR")
+    now = datetime.now()
     Faker.seed(123456)
     random.seed(123456)
 
@@ -157,6 +171,12 @@ def insert_data(cnx):
         recipe_obj = Recipe(instruction, recipe_name)
         recipe_mng.create(recipe_obj)
 
+    # status
+    status_mng = StatusManager(cnx)
+    for status in STATUS:
+        status_obj = Status(status)
+        status_mng.create(status_obj)
+
     # order
     SQL_SELECT_CUSTOMER = "SELECT email FROM Customer;"
     cursor = cnx.cursor()
@@ -171,7 +191,7 @@ def insert_data(cnx):
         order_restaurant = random.choice(RESTAURANT)
         order_customer = (random.choice(customer_list))[0]
         order_data = {
-            "date": fake.date(),
+            "date": now.strftime("%Y/%m/%d %H:%M:%S"),
             "order_number": order,
             "order_status": order_status,
             "order_payment_method": order_payment_method,
@@ -185,3 +205,45 @@ def insert_data(cnx):
         product_list = random.choices(PRODUCT, k=random.randint(1, 10))
         order_prod_obj = OrderProduct(order, product_list)
         order_prod_mng.create(order_prod_obj)
+
+    # add different status to order
+    order_status_mng = OrderStatusManager(cnx)
+
+    date = now.strftime("%Y/%m/%d %H:%M:%S")
+    for order_number in range(1, 71):
+        order_status_obj = OrderStatus(order_number, "en préparation", date)
+        order_status_mng.create(order_status_obj)
+
+    date = now.strftime("%Y/%m/%d %H:%M:%S")
+    for order_number in range(71, 101):
+        order_status_obj = OrderStatus(order_number, "incident", date)
+        order_status_mng.create(order_status_obj)
+
+    date = now.strftime("%Y/%m/%d %H:%M:%S")
+    for order_number in range(1, 31):
+        order_status_obj = OrderStatus(
+            order_number, "en attente de remise", date
+        )
+        order_status_mng.create(order_status_obj)
+
+    date = now.strftime("%Y/%m/%d %H:%M:%S")
+    for order_number in range(1, 16):
+        order_status_obj = OrderStatus(order_number, "remise", date)
+        order_status_mng.create(order_status_obj)
+
+    date = now.strftime("%Y/%m/%d %H:%M:%S")
+    for order_number in range(31, 71):
+        order_status_obj = OrderStatus(
+            order_number, "en attente de livraison", date
+        )
+        order_status_mng.create(order_status_obj)
+
+    date = now.strftime("%Y/%m/%d %H:%M:%S")
+    for order_number in range(31, 51):
+        order_status_obj = OrderStatus(order_number, "en livraison", date)
+        order_status_mng.create(order_status_obj)
+
+    date = now.strftime("%Y/%m/%d %H:%M:%S")
+    for order_number in range(51, 71):
+        order_status_obj = OrderStatus(order_number, "livrée", date)
+        order_status_mng.create(order_status_obj)

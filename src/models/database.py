@@ -6,8 +6,13 @@ import mysql.connector
 from mysql.connector import Error
 from progress.bar import Bar
 
-from src.utils.config import (DATABASE_NAME, DB_SQL_FILE, HOST_NAME, USER_NAME,
-                              USER_PASSWORD)
+from src.utils.config import (
+    DATABASE_NAME,
+    DB_SQL_FILE,
+    HOST_NAME,
+    USER_NAME,
+    USER_PASSWORD,
+)
 
 
 class Database:

@@ -34,15 +34,15 @@ CREATE TABLE `payment_method` (
 ) ENGINE=InnoDB;
 
 CREATE TABLE `purchase_order` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `status_id` BIGINT UNSIGNED NOT NULL,
-  `payment_method_id` BIGINT UNSIGNED NOT NULL,
+  `id` BIGINT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `status_id` BIGINT UNSIGNED  NOT NULL,
+  `payment_method_id` BIGINT UNSIGNED  NOT NULL,
   `restaurant_id` BIGINT UNSIGNED  NOT NULL,
-  `order_number` BIGINT UNSIGNED NOT NULL,
-  `customer_id` BIGINT UNSIGNED NOT NULL,
-  `date` DATETIME NOT NULL,
+  `customer_id` BIGINT UNSIGNED  NOT NULL,
+  `address_id` BIGINT UNSIGNED  NOT NULL,
+  `order_number` BIGINT UNSIGNED  NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK` (`status_id`, `payment_method_id`, `restaurant_id`, `customer_id`)
+  KEY `FK` (`status_id`, `payment_method_id`, `restaurant_id`, `customer_id`, `address_id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `address` (
@@ -151,4 +151,11 @@ CREATE TABLE `vat` (
   `id` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `vat_100` DECIMAL(4,2) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `order_status` (
+  `status_id` BIGINT UNSIGNED  NOT NULL,
+  `purchase_order_id` BIGINT UNSIGNED  NOT NULL,
+  `date` DATETIME,
+  KEY `FK, PK` (`status_id`, `purchase_order_id`)
 ) ENGINE=InnoDB;
