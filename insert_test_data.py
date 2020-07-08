@@ -202,8 +202,11 @@ def insert_data(cnx):
         order_obj = PurchaseOrder(order_data)
         order_mng.create(order_obj)
 
-        product_list = random.choices(PRODUCT, k=random.randint(1, 10))
-        order_prod_obj = OrderProduct(order, product_list)
+        order_details = []
+        for product in random.sample(PRODUCT, k=random.randint(1, 10)):
+            order_details.append((product, random.randint(1, 5)))
+
+        order_prod_obj = OrderProduct(order, order_details)
         order_prod_mng.create(order_prod_obj)
 
     # add different status to order

@@ -98,6 +98,7 @@ CREATE TABLE `user_order` (
 CREATE TABLE `order_product` (
   `order_id` BIGINT UNSIGNED NOT NULL,
   `product_id` BIGINT UNSIGNED NOT NULL,
+  `quantity` TINYINT  UNSIGNED  NOT NULL,
   KEY `FK, PK` (`order_id`, `product_id`)
 ) ENGINE=InnoDB;
 
