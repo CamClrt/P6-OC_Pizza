@@ -36,7 +36,3 @@ class RestaurantCustomer:
     def __init__(self, customer, restaurants):
         self.restaurants = restaurants
         self.customer = customer
-
-    def __repr__(self):
-        """Represent restaurant customer object."""
-        return f"{self.customer}, {self.restaurants}"

@@ -55,6 +55,3 @@ class Restaurant:
         self.phone_number = data.get("phone_number")
         self.address = Address(data)
 
-    def __repr__(self):
-        """Represent restaurant object."""
-        return f"{self.name}, {self.phone_number}, {self.address}"

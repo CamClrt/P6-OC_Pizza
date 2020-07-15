@@ -40,6 +40,3 @@ class Recipe:
         self.recipe = instructions
         self.product = product_name
 
-    def __repr__(self):
-        """Represent recipe object."""
-        return f"{self.product}, {self.recipe}"

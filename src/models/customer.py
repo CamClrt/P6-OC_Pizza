@@ -1,4 +1,6 @@
-"""This module manage all operations with the customer table."""
+"""
+    This module manage all operations with the customer table.
+"""
 
 
 from src.models.address import Address, AddressManager
@@ -64,15 +66,3 @@ class Customer:
         self.password = data.get("password")
         self.address = Address(data)
         self.restaurants = []
-
-    def __repr__(self):
-        """Represent customer object."""
-        elements = [
-            self.first_name,
-            self.last_name,
-            self.phone_number,
-            self.birthdate,
-            self.email,
-            self.address,
-        ]
-        return ",".join(elements)

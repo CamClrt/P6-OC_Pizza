@@ -15,21 +15,31 @@ class OrderProductManager:
             quantity = detail[1]
             SQL_INSERT_ORDER_PRODUCT = """
             INSERT IGNORE INTO Order_Product (
-                order_id, product_id, quantity)
+                order_id, product_id, quantity, unit_price_inclVAT)
                 VALUES(
-                    (SELECT id FROM Purchase_order WHERE order_number=%s),
-                    (SELECT id FROM Product WHERE name=%s),
-                    %s
-                    );
-                    """
+                    (SELECT Purchase_order.id FROM Purchase_order 
+                    WHERE order_number=%s),
+                    (SELECT Product.id FROM Product WHERE name=%s),
+                    %s,
+                    (SELECT
+                        (SELECT Product.price_excluding_tax 
+                        FROM Product WHERE name=%s)
+                        *
+                        (100 + (
+                            SELECT Vat.vat_100 FROM Product 
+                            INNER JOIN Vat ON Vat.id = Product.vat_100_id 
+                            WHERE Product.name=%s))/100
+                    )
+                );
+                """
             cursor = self.cnx.cursor()
             cursor.execute(
-                SQL_INSERT_ORDER_PRODUCT, (order_product_object.order_number, product, quantity)
+                SQL_INSERT_ORDER_PRODUCT,
+                (order_product_object.order_number, product, quantity, product, product),
             )
             self.cnx.commit()
 
         cursor.close()
-
 
 class OrderProduct:
     """Represent order product table."""
@@ -38,6 +48,3 @@ class OrderProduct:
         self.order_number = order_number
         self.order_details = order_details
 
-    def __repr__(self):
-        """Represent purchase order product object."""
-        return f"{self.order_number}, {self.order_details}"

@@ -38,6 +38,3 @@ class Stock:
         self.restaurant = data.get("ingredient_restaurant")
         self.data = data
 
-    def __repr__(self):
-        """Represent stock object."""
-        return f"{self.quantity}, {self.ingredient}, {self.restaurant}"

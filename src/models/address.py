@@ -47,9 +47,3 @@ class Address:
         self.address2 = data.get("address2")
         self.add_info = data.get("add_info")
         self.city = City(data)
-
-    def __repr__(self):
-        """Represent address object."""
-        return (
-            f"{self.address1}, {self.address2}, {self.add_info}, {self.city}"
-        )

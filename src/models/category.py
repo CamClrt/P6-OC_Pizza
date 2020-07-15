@@ -25,7 +25,3 @@ class Category:
     def __init__(self, data):
         self.name = data.get("category")
         self.data = data
-
-    def __repr__(self):
-        """Represent category object."""
-        return f"{self.name}"

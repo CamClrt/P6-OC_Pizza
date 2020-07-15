@@ -27,7 +27,3 @@ class Payment_method:
     def __init__(self, data):
         self.name = data.get("order_payment_method")
         self.data = data
-
-    def __repr__(self):
-        """Represent payment_method object."""
-        return f"{self.name}"

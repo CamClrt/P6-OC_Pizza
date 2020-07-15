@@ -33,7 +33,3 @@ class City:
         self.name = data.get("city_name")
         self.zip_code = data.get("zip_code")
         self.data = data
-
-    def __repr__(self):
-        """Represent city object."""
-        return f"{self.name}: {self.zip_code}"

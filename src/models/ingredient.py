@@ -34,6 +34,3 @@ class Ingredient:
         self.name = data.get("ingredient_name")
         self.data = data
 
-    def __repr__(self):
-        """Represent ingredient object."""
-        return f"{self.name}"

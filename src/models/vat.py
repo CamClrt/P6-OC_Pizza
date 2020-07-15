@@ -26,7 +26,3 @@ class Vat:
     def __init__(self, data):
         self.vat_100 = data.get("vat_100")
         self.data = data
-
-    def __repr__(self):
-        """Represent vat object."""
-        return f"{self.vat_100}"

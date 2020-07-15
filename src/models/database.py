@@ -85,7 +85,11 @@ class Database:
                 cursor.execute(SQL_USE_DB)
             else:
                 # create database and tables
-                print("\n", "> Création de la base de données <".center(100, "-"), "\n")
+                print(
+                    "\n",
+                    "> Création de la base de données <".center(100, "-"),
+                    "\n",
+                )
                 self.create(cursor)
 
         cursor.close()

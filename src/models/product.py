@@ -53,7 +53,3 @@ class Product:
         self.vat = Vat(data)
         self.category = Category(data)
         self.data = data
-
-    def __repr__(self):
-        """Represent product object."""
-        return f"{self.name}, {self.vat}, {self.category}"

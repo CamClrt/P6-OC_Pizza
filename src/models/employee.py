@@ -56,13 +56,3 @@ class Employee:
         self.password = data.get("password")
         self.job = Job(data)
 
-    def __repr__(self):
-        """Represent employee object."""
-        elements = [
-            self.first_name,
-            self.last_name,
-            self.phone_number,
-            self.email,
-            self.job,
-        ]
-        return ",".join(elements)

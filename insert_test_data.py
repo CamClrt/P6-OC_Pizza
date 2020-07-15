@@ -1,7 +1,7 @@
 """This module insert a set of data in order to test the database."""
 
 import random
-from datetime import datetime
+import datetime
 
 from faker import Faker
 from passlib.hash import pbkdf2_sha256
@@ -20,7 +20,6 @@ from src.models.customer import Customer, CustomerManager
 from src.models.employee import Employee, EmployeeManager
 from src.models.ingredient import Ingredient, IngredientManager
 from src.models.order_product import OrderProduct, OrderProductManager
-from src.models.order_status import OrderStatus, OrderStatusManager
 from src.models.product import Product, ProductManager
 from src.models.purchase_order import PurchaseOrder, PurchaseOrderManager
 from src.models.recipe import Recipe, RecipeManager
@@ -35,9 +34,15 @@ from src.models.status import Status, StatusManager
 def insert_data(cnx):
     """insert data in the database."""
     fake = Faker("fr_FR")
-    now = datetime.now()
+    now = datetime.datetime(2020, 7, 14, 11, 55, 00)
     Faker.seed(123456)
     random.seed(123456)
+
+    print(
+        "\n\n",
+        " Insertion du jeu de données en base ".center(100, "#"),
+        "\n\n",
+        )
 
     # restaurant
     restaurants = RESTAURANT
@@ -47,7 +52,7 @@ def insert_data(cnx):
             "restaurant_name": restaurant,
             "phone_number": fake.pystr_format(string_format="##-##-##-##-##"),
             "address1": fake.street_address(),
-            "address2": fake.pystr(min_chars=0, max_chars=100),
+            "address2": fake.pystr(min_chars=0, max_chars=20),
             "add_info": fake.pystr_format(string_format="##?##"),
             "city_name": fake.city(),
             "zip_code": fake.postcode(),
@@ -112,7 +117,7 @@ def insert_data(cnx):
             ),
             "birthdate": fake.date(),
             "address1": fake.street_address(),
-            "address2": fake.pystr(min_chars=0, max_chars=100),
+            "address2": fake.pystr(min_chars=0, max_chars=20),
             "add_info": fake.pystr_format(string_format="##?##"),
             "city_name": fake.city(),
             "zip_code": fake.postcode(),
@@ -186,67 +191,30 @@ def insert_data(cnx):
     order_prod_mng = OrderProductManager(cnx)
 
     for order in range(1, 101):
-        order_status = random.choice(STATUS)
         order_payment_method = random.choice(PAYMENT_METHOD)
+        order_status = random.choice(STATUS)
         order_restaurant = random.choice(RESTAURANT)
         order_customer = (random.choice(customer_list))[0]
         order_data = {
-            "date": now.strftime("%Y/%m/%d %H:%M:%S"),
+            "order_date": now.strftime("%Y/%m/%d %H:%M:%S"),
             "order_number": order,
-            "order_status": order_status,
             "order_payment_method": order_payment_method,
             "order_restaurant": order_restaurant,
             "order_customer": order_customer,
+            "order_status": order_status,
+            "order_mode": random.choice(["livraison", "sur place"])
         }
-
         order_obj = PurchaseOrder(order_data)
         order_mng.create(order_obj)
 
         order_details = []
         for product in random.sample(PRODUCT, k=random.randint(1, 10)):
             order_details.append((product, random.randint(1, 5)))
-
         order_prod_obj = OrderProduct(order, order_details)
         order_prod_mng.create(order_prod_obj)
 
-    # add different status to order
-    order_status_mng = OrderStatusManager(cnx)
-
-    date = now.strftime("%Y/%m/%d %H:%M:%S")
-    for order_number in range(1, 71):
-        order_status_obj = OrderStatus(order_number, "en préparation", date)
-        order_status_mng.create(order_status_obj)
-
-    date = now.strftime("%Y/%m/%d %H:%M:%S")
-    for order_number in range(71, 101):
-        order_status_obj = OrderStatus(order_number, "incident", date)
-        order_status_mng.create(order_status_obj)
-
-    date = now.strftime("%Y/%m/%d %H:%M:%S")
-    for order_number in range(1, 31):
-        order_status_obj = OrderStatus(
-            order_number, "en attente de remise", date
+    print(
+        "\n",
+        "> Insertion réalisée avec succès <".center(100, "-"),
+        "\n",
         )
-        order_status_mng.create(order_status_obj)
-
-    date = now.strftime("%Y/%m/%d %H:%M:%S")
-    for order_number in range(1, 16):
-        order_status_obj = OrderStatus(order_number, "remise", date)
-        order_status_mng.create(order_status_obj)
-
-    date = now.strftime("%Y/%m/%d %H:%M:%S")
-    for order_number in range(31, 71):
-        order_status_obj = OrderStatus(
-            order_number, "en attente de livraison", date
-        )
-        order_status_mng.create(order_status_obj)
-
-    date = now.strftime("%Y/%m/%d %H:%M:%S")
-    for order_number in range(31, 51):
-        order_status_obj = OrderStatus(order_number, "en livraison", date)
-        order_status_mng.create(order_status_obj)
-
-    date = now.strftime("%Y/%m/%d %H:%M:%S")
-    for order_number in range(51, 71):
-        order_status_obj = OrderStatus(order_number, "livrée", date)
-        order_status_mng.create(order_status_obj)

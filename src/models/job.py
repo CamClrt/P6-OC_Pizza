@@ -26,7 +26,3 @@ class Job:
     def __init__(self, data):
         self.label = data.get("job_name")
         self.data = data
-
-    def __repr__(self):
-        """Represent job object."""
-        return f"{self.label}"
