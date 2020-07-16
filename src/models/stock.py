@@ -37,4 +37,3 @@ class Stock:
         self.ingredient = data.get("ingredient_name")
         self.restaurant = data.get("ingredient_restaurant")
         self.data = data
-

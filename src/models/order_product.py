@@ -17,17 +17,17 @@ class OrderProductManager:
             INSERT IGNORE INTO Order_Product (
                 order_id, product_id, quantity, unit_price_inclVAT)
                 VALUES(
-                    (SELECT Purchase_order.id FROM Purchase_order 
+                    (SELECT Purchase_order.id FROM Purchase_order
                     WHERE order_number=%s),
                     (SELECT Product.id FROM Product WHERE name=%s),
                     %s,
                     (SELECT
-                        (SELECT Product.price_excluding_tax 
+                        (SELECT Product.price_excluding_tax
                         FROM Product WHERE name=%s)
                         *
                         (100 + (
-                            SELECT Vat.vat_100 FROM Product 
-                            INNER JOIN Vat ON Vat.id = Product.vat_100_id 
+                            SELECT Vat.vat_100 FROM Product
+                            INNER JOIN Vat ON Vat.id = Product.vat_100_id
                             WHERE Product.name=%s))/100
                     )
                 );
@@ -35,11 +35,18 @@ class OrderProductManager:
             cursor = self.cnx.cursor()
             cursor.execute(
                 SQL_INSERT_ORDER_PRODUCT,
-                (order_product_object.order_number, product, quantity, product, product),
+                (
+                    order_product_object.order_number,
+                    product,
+                    quantity,
+                    product,
+                    product,
+                ),
             )
             self.cnx.commit()
 
         cursor.close()
+
 
 class OrderProduct:
     """Represent order product table."""
@@ -47,4 +54,3 @@ class OrderProduct:
     def __init__(self, order_number, order_details):
         self.order_number = order_number
         self.order_details = order_details
-

@@ -39,4 +39,3 @@ class Recipe:
     def __init__(self, instructions, product_name):
         self.recipe = instructions
         self.product = product_name
-

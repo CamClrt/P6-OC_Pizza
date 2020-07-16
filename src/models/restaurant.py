@@ -54,4 +54,3 @@ class Restaurant:
         self.name = data.get("restaurant_name")
         self.phone_number = data.get("phone_number")
         self.address = Address(data)
-

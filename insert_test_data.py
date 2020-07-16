@@ -1,7 +1,7 @@
 """This module insert a set of data in order to test the database."""
 
-import random
 import datetime
+import random
 
 from faker import Faker
 from passlib.hash import pbkdf2_sha256
@@ -42,7 +42,7 @@ def insert_data(cnx):
         "\n\n",
         " Insertion du jeu de données en base ".center(100, "#"),
         "\n\n",
-        )
+    )
 
     # restaurant
     restaurants = RESTAURANT
@@ -90,7 +90,7 @@ def insert_data(cnx):
                 "phone_number": fake.pystr_format(
                     string_format="##-##-##-##-##"
                 ),
-                "email": f"{employee_first_name}.{employee_last_name}@OC-Pizza.com",
+                "email": f"{employee_first_name}.{employee_last_name}@OC-Pizza.com",  # noqa: E501
                 "password": pbkdf2_sha256.hash(
                     fake.pystr(min_chars=6, max_chars=20)
                 ),
@@ -202,7 +202,7 @@ def insert_data(cnx):
             "order_restaurant": order_restaurant,
             "order_customer": order_customer,
             "order_status": order_status,
-            "order_mode": random.choice(["livraison", "sur place"])
+            "order_mode": random.choice(["livraison", "sur place"]),
         }
         order_obj = PurchaseOrder(order_data)
         order_mng.create(order_obj)
@@ -214,7 +214,5 @@ def insert_data(cnx):
         order_prod_mng.create(order_prod_obj)
 
     print(
-        "\n",
-        "> Insertion réalisée avec succès <".center(100, "-"),
-        "\n",
-        )
+        "\n", "> Insertion réalisée avec succès <".center(100, "-"), "\n",
+    )

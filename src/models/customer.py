@@ -1,6 +1,4 @@
-"""
-    This module manage all operations with the customer table.
-"""
+"""This module manage all operations with the customer table."""
 
 
 from src.models.address import Address, AddressManager

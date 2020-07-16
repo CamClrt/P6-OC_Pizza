@@ -55,4 +55,3 @@ class Employee:
         self.email = data.get("email")
         self.password = data.get("password")
         self.job = Job(data)
-

@@ -6,7 +6,8 @@ STATUS = [
     "en attente de livraison",
     "en livraison",
     "livrée",
-    "incident",
+    "incident"
+    "annulée",
 ]
 
 PAYMENT_METHOD = [

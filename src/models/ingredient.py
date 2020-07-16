@@ -33,4 +33,3 @@ class Ingredient:
     def __init__(self, data):
         self.name = data.get("ingredient_name")
         self.data = data
-

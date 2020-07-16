@@ -12,7 +12,7 @@ class StatusManager:
 
         SQL_INSERT_STATUS = "INSERT IGNORE INTO Status (label) VALUES (%s);"
         cursor = self.cnx.cursor()
-        cursor.execute(SQL_INSERT_STATUS, (status_object.label, ))
+        cursor.execute(SQL_INSERT_STATUS, (status_object.label,))
         self.cnx.commit()
 
         cursor.close()

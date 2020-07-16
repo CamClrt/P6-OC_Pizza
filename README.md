@@ -1,7 +1,7 @@
 OC Pizza: Design a technical solution
 =================
 
-This is a student project made for the project 6 from [OpenClassrooms](https://openclassrooms.com/ )'s Python course
+This is a student project made for the project 6 from [OpenClassrooms](https://openclassrooms.com/ )'s Python course.
 
 The aim of this project is to design a technical for a customer (OC pizza).
 

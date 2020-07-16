@@ -59,7 +59,7 @@ class PurchaseOrderManager:
                     %(order_date)s
                 );
                 """
-        
+
         else:
             SQL_INSERT_ORDER = """
             INSERT IGNORE INTO Purchase_order (
@@ -121,4 +121,3 @@ class PurchaseOrder:
         self.order_mode = data.get("order_mode")
         self.order_date = data.get("order_date")
         self.data = data
-

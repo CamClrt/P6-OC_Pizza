@@ -144,10 +144,3 @@ CREATE TABLE `vat` (
   `vat_100` DECIMAL(4,2) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
-
-CREATE TABLE `order_status` (
-  `status_id` BIGINT UNSIGNED  NOT NULL,
-  `purchase_order_id` BIGINT UNSIGNED  NOT NULL,
-  `date` DATETIME NOT NULL,
-  KEY `FK, PK` (`status_id`, `purchase_order_id`)
-) ENGINE=InnoDB;
