@@ -14,10 +14,10 @@ The aim of this project is to design a technical for a customer (OC pizza).
 ## Versions
 
 Created in:   July 2020  
-Developed:  May/July 2020  
+Developed:    May/July 2020  
 Last version: https://github.com/CamClrt
 
-## 7. Authors
+## Authors
 
 **Camille Clarret** aka **Camoulty** or **CamClrt** : https://github.com/CamClrt/  
 Baby dev 🐣 I'm learning 🐍 #Python with [OpenClassrooms](https://openclassrooms.com/ )
