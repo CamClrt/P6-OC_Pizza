@@ -15,7 +15,7 @@ class OrderProductManager:
             quantity = detail[1]
             SQL_INSERT_ORDER_PRODUCT = """
             INSERT IGNORE INTO Order_Product (
-                order_id, product_id, quantity, unit_price_inclVAT)
+                order_id, product_id, quantity, unit_price_incl_vat)
                 VALUES(
                     (SELECT Purchase_order.id FROM Purchase_order
                     WHERE order_number=%s),

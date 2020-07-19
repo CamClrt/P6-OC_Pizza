@@ -43,18 +43,18 @@ class PurchaseOrderManager:
                     (SELECT id FROM Status
                     WHERE Label=%(order_status)s),
                     (SELECT Address.address1 FROM Address
-                    INNER JOIN Customer ON Customer.id_address = Address.id
+                    INNER JOIN Customer ON Customer.address_id = Address.id
                     WHERE Customer.email=%(order_customer)s),
                     (SELECT Address.address2 FROM Address
-                    INNER JOIN Customer ON Customer.id_address = Address.id
+                    INNER JOIN Customer ON Customer.address_id = Address.id
                     WHERE Customer.email=%(order_customer)s),
                     (SELECT City.name FROM City
                     INNER JOIN Address ON Address.city_id = City.id
-                    INNER JOIN Customer ON Address.id = Customer.id_address
+                    INNER JOIN Customer ON Address.id = Customer.address_id
                     WHERE Customer.email=%(order_customer)s),
                     (SELECT City.zip_code FROM City
                     INNER JOIN Address ON Address.city_id = City.id
-                    INNER JOIN Customer ON Address.id = Customer.id_address
+                    INNER JOIN Customer ON Address.id = Customer.address_id
                     WHERE Customer.email=%(order_customer)s),
                     %(order_date)s
                 );
@@ -84,18 +84,18 @@ class PurchaseOrderManager:
                     (SELECT id FROM Status
                     WHERE Label=%(order_status)s),
                     (SELECT Address.address1 FROM Address
-                    INNER JOIN Restaurant ON Restaurant.id_address = Address.id
+                    INNER JOIN Restaurant ON Restaurant.address_id = Address.id
                     WHERE Restaurant.name=%(order_restaurant)s),
                     (SELECT Address.address2 FROM Address
-                    INNER JOIN Restaurant ON Restaurant.id_address = Address.id
+                    INNER JOIN Restaurant ON Restaurant.address_id = Address.id
                     WHERE Restaurant.name=%(order_restaurant)s),
                     (SELECT City.name FROM City
                     INNER JOIN Address ON Address.city_id = City.id
-                    INNER JOIN Restaurant ON Address.id = Restaurant.id_address
+                    INNER JOIN Restaurant ON Address.id = Restaurant.address_id
                     WHERE Restaurant.name=%(order_restaurant)s),
                     (SELECT City.zip_code FROM City
                     INNER JOIN Address ON Address.city_id = City.id
-                    INNER JOIN Restaurant ON Address.id = Restaurant.id_address
+                    INNER JOIN Restaurant ON Address.id = Restaurant.address_id
                     WHERE Restaurant.name=%(order_restaurant)s),
                     %(order_date)s
                 );

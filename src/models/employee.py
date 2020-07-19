@@ -24,8 +24,8 @@ class EmployeeManager:
             phone_number,
             email,
             password,
-            id_restaurant,
-            id_job) VALUES (
+            restaurant_id,
+            job_id) VALUES (
                 %(first_name)s,
                 %(last_name)s,
                 %(phone_number)s,

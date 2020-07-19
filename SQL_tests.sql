@@ -3,8 +3,8 @@
 SELECT
         Product.name AS 'Détail de la commande n°2', 
         Order_product.quantity AS 'Qté',
-        Order_product.unit_price_inclVAT AS 'Prix unitaire TTC',
-        (Order_product.quantity*Order_product.unit_price_inclVAT) AS 'Prix total TTC'
+        Order_product.unit_price_incl_vat AS 'Prix unitaire TTC',
+        (Order_product.quantity*Order_product.unit_price_incl_vat) AS 'Prix total TTC'
 FROM
         Purchase_order
             INNER JOIN Order_product ON Purchase_order.ID = Order_product.order_id
@@ -51,7 +51,7 @@ UPDATE Address
 SET address1="52 Avenue Victor Hugo", address2="Ambassade d'Islande"
 WHERE
         id=(
-            SELECT id_address
+            SELECT address_id
             FROM Customer 
             WHERE Customer.email ='Adélaïde.Texier@gmail.com'
         );
@@ -62,7 +62,7 @@ WHERE
         id=(
             SELECT city_id
             FROM Address
-            INNER JOIN Customer ON Customer.id_address = Address.id
+            INNER JOIN Customer ON Customer.address_id = Address.id
             WHERE Customer.email ='Adélaïde.Texier@gmail.com'
         );
 
@@ -85,7 +85,7 @@ SELECT
 FROM 
         Purchase_order
             INNER JOIN Customer ON Customer.id = Purchase_order.customer_id
-            INNER JOIN Address ON Address.id = Customer.id_address
+            INNER JOIN Address ON Address.id = Customer.address_id
             INNER JOIN City ON City.id = Address.city_id
             INNER JOIN Status ON Status.id = Purchase_order.status_id
 WHERE 
@@ -102,12 +102,12 @@ WHERE name='MARGHERITA';
 
 SELECT 
         Product.name AS 'Commande n°64', 
-        Order_product.unit_price_inclVAT AS 'PU TTC',
+        Order_product.unit_price_incl_vat AS 'PU TTC',
         CAST(
             Product.price_excluding_tax*(100 + Vat.vat_100)/100 AS DECIMAL(5,2)
             ) AS 'PU TTC actuel',
         CAST(
-            (Product.price_excluding_tax*(100 + Vat.vat_100)/100) - Order_product.unit_price_inclVAT AS DECIMAL(5,2)
+            (Product.price_excluding_tax*(100 + Vat.vat_100)/100) - Order_product.unit_price_incl_vat AS DECIMAL(5,2)
             ) AS 'Delta'
 FROM 
         Purchase_order

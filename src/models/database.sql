@@ -73,15 +73,15 @@ CREATE TABLE `city` (
 
 CREATE TABLE `employee` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_job` BIGINT UNSIGNED NOT NULL,
-  `id_restaurant` BIGINT UNSIGNED NOT NULL,
+  `job_id` BIGINT UNSIGNED NOT NULL,
+  `restaurant_id` BIGINT UNSIGNED NOT NULL,
   `first_name` VARCHAR(30) NOT NULL,
   `last_name` VARCHAR(30) NOT NULL,
-  `phone_number` VARCHAR(10),
+  `phone_number` VARCHAR(20),
   `email` VARCHAR(100) NOT NULL UNIQUE,
   `password` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK` (`id_job`, `id_restaurant`)
+  KEY `FK` (`job_id`, `restaurant_id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `stock` (
@@ -95,7 +95,7 @@ CREATE TABLE `order_product` (
   `order_id` BIGINT UNSIGNED NOT NULL,
   `product_id` BIGINT UNSIGNED NOT NULL,
   `quantity` TINYINT  UNSIGNED  NOT NULL,
-  `unit_price_inclVAT` DECIMAL(4,2) NOT NULL,
+  `unit_price_incl_vat` DECIMAL(4,2) NOT NULL,
   KEY `FK, PK` (`order_id`, `product_id`)
 ) ENGINE=InnoDB;
 
@@ -107,7 +107,7 @@ CREATE TABLE `job` (
 
 CREATE TABLE `customer` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_address` BIGINT UNSIGNED NOT NULL,
+  `address_id` BIGINT UNSIGNED NOT NULL,
   `first_name` VARCHAR(30) NOT NULL,
   `last_name` VARCHAR(30) NOT NULL,
   `phone_number` VARCHAR(20) NOT NULL,
@@ -115,16 +115,16 @@ CREATE TABLE `customer` (
   `email` VARCHAR(100) NOT NULL UNIQUE,
   `password` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK` (`id_address`)
+  KEY `FK` (`address_id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `restaurant` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_address` BIGINT UNSIGNED NOT NULL,
+  `address_id` BIGINT UNSIGNED NOT NULL,
   `name` VARCHAR(50) NOT NULL UNIQUE,
   `phone_number` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK` (`id_address`)
+  KEY `FK` (`address_id`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE `category` (

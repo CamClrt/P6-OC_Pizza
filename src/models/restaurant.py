@@ -30,7 +30,7 @@ class RestaurantManager:
             INSERT IGNORE INTO Restaurant (
                 name,
                 phone_number,
-                id_address)
+                address_id)
                 VALUES (
                     %(restaurant_name)s,
                     %(phone_number)s,
